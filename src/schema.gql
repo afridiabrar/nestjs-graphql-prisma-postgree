@@ -1,0 +1,62 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateTodoInput {
+  category: String!
+  title: String!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  username: String!
+}
+
+type Mutation {
+  createTodo(createTodoInput: CreateTodoInput!): Todo!
+  createUser(createUserInput: CreateUserInput!): User!
+  login(userInput: UserInput!): User!
+  removeTodo(id: Int!): Todo!
+  removeUser(id: Int!): User!
+  updateTodo(updateTodoInput: UpdateTodoInput!): Todo!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+}
+
+type Query {
+  todo(id: Int!): Todo!
+  todos: [Todo!]!
+  user(id: Int!): User!
+  users: [User!]!
+}
+
+type Todo {
+  category: String!
+  id: Int!
+  title: String!
+}
+
+input UpdateTodoInput {
+  category: String!
+  id: Int!
+  title: String!
+}
+
+input UpdateUserInput {
+  email: String!
+  id: Int!
+  password: String!
+  username: String!
+}
+
+type User {
+  email: String!
+  id: Int!
+  password: String!
+  username: String!
+}
+
+input UserInput {
+  email: String!
+  password: String!
+}
