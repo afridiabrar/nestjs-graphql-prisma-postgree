@@ -4,6 +4,7 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { UserInput } from './dto/user-input.input';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { hash,compare } from 'bcryptjs';
+import { AuthenticationError, ForbiddenError } from '@nestjs/apollo';
 
 @Injectable()
 export class UserService {
@@ -14,7 +15,7 @@ export class UserService {
  async create(createUserInput: CreateUserInput) {
 
     const foundUser = await this.prisma.user.findUnique({where: {"email":createUserInput.email } });
-      if(foundUser) throw new Error('Email is already in Use')
+      if(foundUser) throw new ForbiddenError('Email is already in Use');
 
       const hashedPassword = await hash(createUserInput.password, 10);
     let AddedUser = await this.prisma.user.create({
@@ -30,7 +31,7 @@ export class UserService {
   }
   async login(userInput:UserInput){
     const foundUser = await this.prisma.user.findUnique({where: {"email":userInput.email } });
-    if(!foundUser) throw new Error('User Not Found')
+    if(!foundUser) throw new AuthenticationError('User Not Found')
     const passwordHasMatch = await compare(userInput.password, foundUser.password);
     if (!passwordHasMatch) {
       if(foundUser) throw new Error('Your Email Or Password is incorrect')
@@ -46,7 +47,7 @@ export class UserService {
       foundUser
     }; 
 
-    return data;
+    return foundUser;
 
   }
 
